@@ -1,0 +1,47 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Logs & test temps
+*.log
+gui_crash.txt
+temp_make_shortcut.ps1
+test_launch.bat
+test_run.bat
+test_bat.py
+stdout.log
+stderr.log
+
+# Temporary test audio/subtitles
+*.wav
+*.mp3
+*_synced.srt
+*_synced.ass
+*_synced.vtt
+
+# IDE & OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
