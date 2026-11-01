@@ -115,20 +115,21 @@ python sync_subtitles.py "movie.mp4" "movie.srt" --max-offset 600
 
 ```mermaid
 flowchart TD
-    A[輸入: 影片/音訊檔案] -->|FFmpeg pipe 記憶體串流| B[16kHz 16-bit Mono PCM]
-    B -->|WebRTC VAD 聲學活動檢測| C[語音活動二值化信號 V_t]
-    C -->|形態學閉合 Binary Closing| D[微暫停平滑區間信號 V'_t]
+    A["輸入: 影片/音訊檔案"] -->|"FFmpeg pipe 記憶體串流"| B["16kHz 16-bit Mono PCM"]
+    B -->|"WebRTC VAD 聲學活動檢測"| C["語音活動二值化信號 V_t"]
+    C -->|"形態學閉合 Binary Closing"| D["微暫停平滑區間信號 V'_t"]
 
-    E[輸入: 原始字幕檔案] -->|pysubs2 多編碼/多格式解析| F[字幕顯示事件時間區間]
-    F -->|光柵化 Rasterization| G[字幕活動二值化信號 S_t]
+    E["輸入: 原始字幕檔案"] -->|"pysubs2 多編碼/多格式解析"| F["字幕顯示事件時間區間"]
+    F -->|"光柵化 Rasterization"| G["字幕活動二值化信號 S_t"]
 
-    D --> H[FFT 零均值互相關 Cross-Correlation 運算]
+    D --> H["FFT 零均值互相關 Cross-Correlation 運算"]
     G --> H
-    H --> I[幀率漂移比對 23.976 / 24 / 25 fps]
-    I --> J[找出最大重疊相關峰值 (Offset, Scale)]
-    J --> K[時序線性轉換: t' = Scale * t + Offset]
-    K --> L[輸出: 已同步之 *_synced.srt]
+    H --> I["幀率漂移比對 23.976 / 24 / 25 fps"]
+    I --> J["找出最大重疊相關峰值 (Offset, Scale)"]
+    J --> K["時序線性轉換: t' = Scale * t + Offset"]
+    K --> L["輸出: 已同步之 synced.srt"]
 ```
+
 
 1. **WebRTC VAD & 形態學閉合**：
    語音辨識自然存在短語間的微小停頓（100~300ms）。本工具透過數學形態學的閉合運算（`binary_closing`）填補單詞空隙，在保持對話開頭與結尾時間軸**零失真**的前提下，大幅提昇比對準確度。
